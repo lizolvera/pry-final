@@ -1,88 +1,7 @@
-import React, { useEffect, useState } from 'react';
-
-// Cambia la IP a la del ESP32 y puerto 8080
-const WEBSOCKET_URL = 'ws://192.168.252.128:8080';
+import React from 'react';
 
 const ControlIoT = () => {
-  const [ws, setWs] = useState(null);
-  const [mensaje, setMensaje] = useState('');
-  const [estadoPuerta, setEstadoPuerta] = useState('Cerrada');
-  const [nipActual, setNipActual] = useState('');
-  const [nuevoNip, setNuevoNip] = useState('');
-  const [mostrarFormularioNip, setMostrarFormularioNip] = useState(false);
-
-  useEffect(() => {
-    const socket = new WebSocket(WEBSOCKET_URL);
-
-    socket.onopen = () => {
-      console.log('Conectado al ESP32 vía WebSocket');
-    };
-
-    socket.onmessage = (event) => {
-      console.log('Mensaje recibido:', event.data);
-      setMensaje(event.data);
-      // Aquí podrías parsear si el ESP32 envía datos en JSON
-      if (event.data.includes("puerta_abierta")) {
-        setEstadoPuerta("Abierta");
-      } else if (event.data.includes("puerta_cerrada")) {
-        setEstadoPuerta("Cerrada");
-      }
-    };
-
-    socket.onerror = (error) => {
-      console.error('Error en WebSocket:', error);
-      setMensaje('Error en conexión WebSocket');
-    };
-
-    socket.onclose = () => {
-      console.log('Conexión WebSocket cerrada');
-    };
-
-    setWs(socket);
-
-    return () => {
-      if (socket.readyState === WebSocket.OPEN) {
-        socket.close();
-      }
-    };
-  }, []);
-
-  const enviarComando = (comando) => {
-    if (ws && ws.readyState === WebSocket.OPEN) {
-      ws.send(comando);
-    } else {
-      setMensaje('WebSocket no está conectado');
-    }
-  };
-
-  const abrirPuerta = () => {
-    enviarComando('abrir_puerta');
-  };
-
-  const cerrarPuerta = () => {
-    enviarComando('cerrar_puerta');
-  };
-
-  const cambiarNip = () => {
-    if (nuevoNip.length === 4) {
-      enviarComando(`cambiar_nip:${nuevoNip}`);
-      setNipActual(nuevoNip);
-      setNuevoNip('');
-      setMostrarFormularioNip(false);
-    } else {
-      setMensaje('El NIP debe tener 4 dígitos.');
-    }
-  };
-
-  const verificarNip = () => {
-    if (nipActual.length === 4) {
-      enviarComando(`verificar_nip:${nipActual}`);
-    } else {
-      setMensaje('El NIP debe tener 4 dígitos.');
-    }
-  };
-
-  // Estilos CSS inline
+  // Estilos modernos con efecto neón
   const styles = {
     container: {
       display: 'flex',
@@ -90,131 +9,238 @@ const ControlIoT = () => {
       alignItems: 'center',
       justifyContent: 'center',
       minHeight: '100vh',
-      backgroundColor: '#2B2347',
+      background: 'radial-gradient(circle, #1a1a2e 0%, #16213e 100%)',
       padding: '20px',
-      fontFamily: "'Century Gothic', sans-serif",
-      color: '#FFFFFF',
+      fontFamily: "'Poppins', sans-serif",
+      color: '#e0e0e0',
     },
     card: {
-      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-      padding: '20px',
-      borderRadius: '15px',
-      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+      backgroundColor: 'rgba(30, 30, 60, 0.7)',
+      padding: '30px',
+      borderRadius: '20px',
+      boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5)',
       width: '90%',
       maxWidth: '600px',
-      boxSizing: 'border-box',
       backdropFilter: 'blur(10px)',
+      border: '1px solid rgba(255, 255, 255, 0.1)',
+      position: 'relative',
+      overflow: 'hidden',
+    },
+    cardGlow: {
+      position: 'absolute',
+      top: '-50%',
+      left: '-50%',
+      width: '200%',
+      height: '200%',
+      background: 'radial-gradient(circle, rgba(0,210,255,0.1) 0%, transparent 70%)',
+      animation: 'rotate 20s linear infinite',
     },
     heading: {
       textAlign: 'center',
-      fontSize: '24px',
+      fontSize: '28px',
+      marginBottom: '25px',
+      color: '#00f0ff',
+      fontWeight: '600',
+      textShadow: '0 0 10px rgba(0, 240, 255, 0.7)',
+    },
+    statusBar: {
+      display: 'flex',
+      justifyContent: 'space-between',
       marginBottom: '20px',
-      color: '#00D283',
-    },
-    widget: {
-      margin: '10px 0',
       padding: '10px',
-      border: '1px solid rgba(255, 255, 255, 0.2)',
-      borderRadius: '5px',
+      borderRadius: '10px',
+      background: 'rgba(0, 0, 0, 0.3)',
     },
-    widgetTitle: {
+    statusItem: {
+      display: 'flex',
+      alignItems: 'center',
+    },
+    statusIndicator: {
+      width: '12px',
+      height: '12px',
+      borderRadius: '50%',
+      marginRight: '8px',
+    },
+    connected: {
+      backgroundColor: '#00f0ff',
+      boxShadow: '0 0 10px #00f0ff',
+    },
+    disconnected: {
+      backgroundColor: '#ff3a3a',
+      boxShadow: '0 0 10px #ff3a3a',
+    },
+    controlPanel: {
+      margin: '20px 0',
+    },
+    panelTitle: {
       fontSize: '18px',
-      fontWeight: 'bold',
-      marginBottom: '5px',
-      color: '#FFFFFF',
+      marginBottom: '15px',
+      color: '#00f0ff',
+      display: 'flex',
+      alignItems: 'center',
     },
-    widgetState: {
-      fontSize: '16px',
-      marginBottom: '5px',
-      color: '#FFFFFF',
+    panelIcon: {
+      marginRight: '10px',
+      fontSize: '20px',
+    },
+    buttonGroup: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: '10px',
+      marginBottom: '15px',
     },
     button: {
-      padding: '10px 20px',
-      backgroundColor: '#00D283',
-      color: '#FFFFFF',
+      flex: '1 1 45%',
+      minWidth: '120px',
+      padding: '12px',
       border: 'none',
-      borderRadius: '5px',
+      borderRadius: '8px',
       cursor: 'pointer',
-      margin: '5px',
-      transition: 'background-color 0.3s ease',
+      transition: 'all 0.3s ease',
+      fontWeight: '500',
+      fontSize: '16px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
-    buttonSecondary: {
-      padding: '10px 20px',
-      backgroundColor: '#7A5CFB',
-      color: '#FFFFFF',
-      border: 'none',
-      borderRadius: '5px',
-      cursor: 'pointer',
-      margin: '5px',
-      transition: 'background-color 0.3s ease',
+    primaryButton: {
+      background: 'linear-gradient(45deg, #00f0ff, #0088ff)',
+      color: '#fff',
+      boxShadow: '0 0 15px rgba(0, 240, 255, 0.5)',
     },
-    input: {
-      padding: '10px',
-      borderRadius: '5px',
-      border: '1px solid rgba(255, 255, 255, 0.2)',
-      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-      color: '#FFFFFF',
-      width: '100%',
-      marginBottom: '10px',
+    secondaryButton: {
+      background: 'linear-gradient(45deg, #ff3a3a, #ff7b00)',
+      color: '#fff',
+      boxShadow: '0 0 15px rgba(255, 58, 58, 0.5)',
+    },
+    disabledButton: {
+      background: 'rgba(100, 100, 100, 0.5)',
+      color: '#aaa',
+      cursor: 'not-allowed',
+    },
+    statusDisplay: {
+      padding: '15px',
+      borderRadius: '10px',
+      margin: '10px 0',
+      textAlign: 'center',
+      fontSize: '18px',
+      fontWeight: 'bold',
+      textTransform: 'uppercase',
+      letterSpacing: '1px',
+    },
+    doorOpen: {
+      background: 'rgba(0, 240, 255, 0.1)',
+      color: '#00f0ff',
+      border: '1px solid #00f0ff',
+      boxShadow: '0 0 20px rgba(0, 240, 255, 0.2)',
+    },
+    doorClosed: {
+      background: 'rgba(255, 58, 58, 0.1)',
+      color: '#ff3a3a',
+      border: '1px solid #ff3a3a',
+      boxShadow: '0 0 20px rgba(255, 58, 58, 0.2)',
+    },
+    alarmOn: {
+      background: 'rgba(255, 58, 58, 0.2)',
+      color: '#ff3a3a',
+      border: '1px solid #ff3a3a',
+      boxShadow: '0 0 20px rgba(255, 58, 58, 0.3)',
+      animation: 'pulse 1.5s infinite',
+    },
+    alarmOff: {
+      background: 'rgba(0, 240, 255, 0.1)',
+      color: '#00f0ff',
+      border: '1px solid #00f0ff',
     },
     message: {
-      color: '#FF6B6B',
-      marginTop: '10px',
       textAlign: 'center',
+      margin: '15px 0',
+      color: '#ffcc00',
+      fontSize: '14px',
+      minHeight: '20px',
+    },
+    '@keyframes rotate': {
+      from: { transform: 'rotate(0deg)' },
+      to: { transform: 'rotate(360deg)' },
+    },
+    '@keyframes pulse': {
+      '0%': { boxShadow: '0 0 0 0 rgba(255, 58, 58, 0.7)' },
+      '70%': { boxShadow: '0 0 0 10px rgba(255, 58, 58, 0)' },
+      '100%': { boxShadow: '0 0 0 0 rgba(255, 58, 58, 0)' },
     },
   };
 
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        <h2 style={styles.heading}>Control de Puerta Inteligente</h2>
-        <p style={styles.message}>{mensaje}</p>
-
-        {/* Estado de la Puerta */}
-        <div style={styles.widget}>
-          <h3 style={styles.widgetTitle}>Estado de la Puerta</h3>
-          <p style={styles.widgetState}>Estado actual: {estadoPuerta}</p>
-          <button style={styles.button} onClick={abrirPuerta}>Abrir Puerta</button>
-          <button style={styles.button} onClick={cerrarPuerta}>Cerrar Puerta</button>
+        <div style={styles.cardGlow} />
+        <h2 style={styles.heading}>CONTROL IOT - SEGURIDAD</h2>
+        
+        {/* Barra de estado */}
+        <div style={styles.statusBar}>
+          <div style={styles.statusItem}>
+            <div style={{...styles.statusIndicator, ...styles.connected}} />
+            <span>Conectado</span>
+          </div>
+          <div style={styles.statusItem}>
+            <div style={{...styles.statusIndicator, ...styles.disconnected}} />
+            <span>Alarma: Apagada</span>
+          </div>
         </div>
 
-        {/* Verificar NIP */}
-        <div style={styles.widget}>
-          <h3 style={styles.widgetTitle}>Verificar NIP</h3>
-          <input
-            type="text"
-            placeholder="Ingrese su NIP"
-            value={nipActual}
-            onChange={(e) => setNipActual(e.target.value)}
-            style={styles.input}
-            maxLength={4}
-          />
-          <button style={styles.button} onClick={verificarNip}>Verificar NIP</button>
+        {/* Mensaje del sistema */}
+        <p style={styles.message}>Sistema listo</p>
+
+        {/* Estado de la puerta */}
+        <div style={{...styles.statusDisplay, ...styles.doorClosed}}>
+          PUERTA: CERRADA | DESBLOQUEADA
         </div>
 
-        {/* Cambiar NIP */}
-        <div style={styles.widget}>
-          <h3 style={styles.widgetTitle}>Cambiar NIP</h3>
-          {mostrarFormularioNip ? (
-            <>
-              <input
-                type="text"
-                placeholder="Nuevo NIP (4 dígitos)"
-                value={nuevoNip}
-                onChange={(e) => setNuevoNip(e.target.value)}
-                style={styles.input}
-                maxLength={4}
-              />
-              <button style={styles.button} onClick={cambiarNip}>Guardar NIP</button>
-              <button style={styles.buttonSecondary} onClick={() => setMostrarFormularioNip(false)}>Cancelar</button>
-            </>
-          ) : (
-            <button style={styles.button} onClick={() => setMostrarFormularioNip(true)}>Cambiar NIP</button>
-          )}
+        {/* Panel de control de alarma */}
+        <div style={styles.controlPanel}>
+          <h3 style={styles.panelTitle}>
+            <span style={styles.panelIcon}>🚨</span> CONTROL DE ALARMA
+          </h3>
+          <div style={styles.buttonGroup}>
+            <button style={{...styles.button, ...styles.primaryButton}}>
+              ACTIVAR ALARMA
+            </button>
+            <button style={{...styles.button, ...styles.disabledButton}}>
+              DESACTIVAR ALARMA
+            </button>
+          </div>
+          <div style={{...styles.statusDisplay, ...styles.alarmOff}}>
+            ALARMA: APAGADA
+          </div>
+        </div>
+
+        {/* Panel de control de puerta */}
+        <div style={styles.controlPanel}>
+          <h3 style={styles.panelTitle}>
+            <span style={styles.panelIcon}>🚪</span> CONTROL DE PUERTA
+          </h3>
+          
+          <div style={styles.buttonGroup}>
+            <button style={{...styles.button, ...styles.primaryButton}}>
+              BLOQUEAR PUERTA
+            </button>
+            <button style={{...styles.button, ...styles.disabledButton}}>
+              DESBLOQUEAR PUERTA
+            </button>
+          </div>
+          
+          <div style={styles.buttonGroup}>
+            <button style={{...styles.button, ...styles.primaryButton}}>
+              ABRIR PUERTA
+            </button>
+            <button style={{...styles.button, ...styles.disabledButton}}>
+              CERRAR PUERTA
+            </button>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default ControlIoT;
+export default ControlIoT; 

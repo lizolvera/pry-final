@@ -30,6 +30,7 @@ const AdmQuienesSomos = () => {
   const handleEditClick = (section, id) => {
     navigate(`/editar-quienes-somos/${section}/${id}`);
   };
+  
 
   const handleAddClick = (section) => {
     navigate(`/crear-quienes-somos/${section}`);

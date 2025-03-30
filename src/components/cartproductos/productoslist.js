@@ -13,7 +13,7 @@ const ProductList = () => {
       .get("http://localhost:5000/Productos")
       .then((response) => {
         console.log("Productos recibidos:", response.data);
-        setProductos(response.data.slice(0, 8)); // Limita a 8 productos
+        setProductos(response.data); // Muestra todos los productos
         setLoading(false);
       })
       .catch((error) => {
@@ -49,8 +49,6 @@ const ProductList = () => {
 
   return (
     <Container className="mt-4 text-center" style={{ color: "#FFFFFF" }}>
-
-      {/* Estilos para desplazar las flechas fuera de los recuadros */}
       <style>
         {`
           .my-carousel .carousel-control-prev,
@@ -69,7 +67,6 @@ const ProductList = () => {
       <p className="fs-5" style={{ color: "#fffff" }}>Explora nuestros productos</p>
       <Carousel
         className="my-carousel"
-        // Flechas grandes y con el color de la paleta
         prevIcon={<span style={{ fontSize: "3rem", color: "#7A5CFB", fontWeight: "bold" }}>‹</span>}
         nextIcon={<span style={{ fontSize: "3rem", color: "#7A5CFB", fontWeight: "bold" }}>›</span>}
       >
@@ -82,7 +79,7 @@ const ProductList = () => {
                     style={{
                       borderRadius: "12px",
                       boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
-                      backgroundColor: "#2B2347", // Fondo morado grisáceo
+                      backgroundColor: "#2B2347",
                       padding: "10px",
                       transition: "transform 0.3s ease",
                     }}
@@ -94,8 +91,8 @@ const ProductList = () => {
                       image={producto.imagenUrl}
                       title={producto.nombre}
                       description={`Precio: $${producto.precio}`}
-                      titleColor="#00D283" // Color verde esmeralda para el título
-                      descriptionColor="#FFFFFF" // Color blanco para la descripción
+                      titleColor="#00D283"
+                      descriptionColor="#FFFFFF"
                     />
                   </div>
                 </Col>

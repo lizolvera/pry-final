@@ -45,7 +45,7 @@ const AggProductos = () => {
         setStock('');
         setImagenUrl('');
         setCategoria('Puertas');
-        navigate('/ProductosCat');
+        navigate('/editar-productos');
       } else {
         setMensaje('Error al agregar producto');
       }

@@ -18,15 +18,14 @@ const EditarQuienesSomos = () => {
       try {
         let res;
         if (section === "misionVision") {
-          res = await axios.get(`${API_URL}/mision-vision/ver`);
+          res = await axios.get(`${API_URL}/mision-vision/ver/${id}`);
         } else if (section === "historial") {
-          res = await axios.get(`${API_URL}/historial-antecedentes/ver`);
+          res = await axios.get(`${API_URL}/historial-antecedentes/ver/${id}`);
         } else {
           setError("Sección no válida");
           setLoading(false);
           return;
         }
-        // Asumimos que el registro obtenido es el que se va a editar
         setFormData(res.data);
         setLoading(false);
       } catch (err) {
@@ -34,9 +33,9 @@ const EditarQuienesSomos = () => {
         setLoading(false);
       }
     };
-
+  
     fetchData();
-  }, [API_URL, section, id]);
+  }, [API_URL, section, id]);  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
