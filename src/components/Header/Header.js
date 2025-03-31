@@ -430,6 +430,14 @@ const Header = () => {
                                                     >
                                                         <FaCogs className="me-2" /> Preguntas
                                                     </Dropdown.Item>
+                                                    <Dropdown.Item
+                                                        as={Link}
+                                                        to="/admin-ubicaciones"
+                                                        className="py-2 px-3"
+                                                        style={{ color: "#FFFFFF" }}
+                                                    >
+                                                        <FaCogs className="me-2" /> Ubicaciones
+                                                    </Dropdown.Item>
                                                 </>
                                             )}
                                             <Dropdown.Divider style={{ borderColor: "rgba(255,255,255,0.1)" }} />

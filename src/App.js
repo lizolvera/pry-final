@@ -24,9 +24,12 @@ import { UserProvider } from "./screens/UserContext/UserContext";
 import AdminPoliticas from "./screens/AdmPoliticas/AdminPoliticas";
 //
 import AdmPreguntas from "./screens/AdminPreguntas/AdmPreguntas";
+import AdminUbicaciones from "./screens/AdmUbicacion/AdminUbicaciones";
 
 import Ubicacion from "./screens/Ubicacion/Ubicacion";
 import RecuperarContraseña from "./screens/RecuperarContraseña/RecuperarContraseña";
+import RecuperarContraseñatoken from "./screens/RecuperarContraseñaToken/SolicitarRestablecimiento";
+import RestablecerContrasena from "./screens/RecuperarContraseñaToken/RestablecerContrasena";
 import Perfil from "./screens/Perfil/Perfil";
 import EditarPerfil from "./screens/Perfil/EditarPerfil";
 import IoTManager from "./screens/DispositivoIoT/IoTManager";
@@ -58,9 +61,15 @@ const App = () => {
           <Route path="/editar-quienes-somos/:section/:id" element={<EditarQuienesSomos />} />
           <Route path="/crear-quienes-somos/:section/" element={<CrearQuienesSomos />} />
           <Route path="/admin-politicas" element={<AdminPoliticas />} />
+          
+          <Route path="/admin-ubicaciones" element={<AdminUbicaciones />} />
+          
           <Route path="/admin-preguntas" element={<AdmPreguntas />} />
           <Route path="/ubicacion" element={<Ubicacion />} />
           <Route path="/recuperar-contraseña" element={<RecuperarContraseña />} />
+          <Route path="/solicitar-restablecimiento" element={<RecuperarContraseñatoken />} />
+          <Route path="/restablecer-contrasena/:token" element={<RestablecerContrasena />} />
+
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/EditarPerfil" element={<EditarPerfil />} />
           <Route path="/control" element={<IoTManager />} />
