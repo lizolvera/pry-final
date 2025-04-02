@@ -1,23 +1,23 @@
 import React, { useContext, useState } from "react";
-import { 
-  Container, 
-  Navbar, 
-  Nav, 
-  Button, 
-  Dropdown, 
+import {
+  Container,
+  Navbar,
+  Nav,
+  Button,
+  Dropdown,
   Badge,
   Offcanvas,
-  ListGroup 
+  ListGroup
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { 
-  FaUser, 
-  FaBars, 
-  FaBoxOpen, 
-  FaSignOutAlt, 
-  FaCogs, 
-  FaShoppingCart, 
-  FaBell, 
+import {
+  FaUser,
+  FaBars,
+  FaBoxOpen,
+  FaSignOutAlt,
+  FaCogs,
+  FaShoppingCart,
+  FaBell,
   FaHome,
   FaCog,
   FaTools,
@@ -35,26 +35,9 @@ const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [notifications] = useState(3);
 
-    const categorias = [
-        { name: "Todos", icon: <FaBoxOpen className="me-2" /> },
-        { name: "Puertas", icon: <i className="bi bi-door-closed me-2"></i> },
-        { name: "Sensores", icon: <i className="bi bi-sensor me-2"></i> },
-        { name: "Cámaras", icon: <i className="bi bi-camera-video me-2"></i> },
-        { name: "Alarmas", icon: <i className="bi bi-alarm me-2"></i> },
-        { name: "Cerraduras", icon: <i className="bi bi-lock me-2"></i> }
-    ];
-
     const handleLogout = () => {
         setUser(null);
         navigate("/login");
-    };
-
-    const handleSelectCategoria = (categoria) => {
-        if (categoria === "Todos") {
-            navigate("/ProductosCat");
-        } else {
-            navigate(`/ProductosCat?categoria=${encodeURIComponent(categoria)}`);
-        }
     };
 
     // Componente del menú lateral (Offcanvas)
@@ -70,61 +53,61 @@ const Header = () => {
                 <Offcanvas.Body className="p-0">
                     <ListGroup variant="flush">
                         <ListGroup.Item className="bg-dark border-0">
-                            <Nav.Link 
-                                as={Link} 
-                                to="/perfil" 
+                            <Nav.Link
+                                as={Link}
+                                to="/perfil"
                                 className="d-flex align-items-center gap-3 text-white py-3 px-3"
                                 onClick={onClose}
                             >
-                                <FaUser style={{ color: "#7A5CFB" }} /> 
+                                <FaUser style={{ color: "#7A5CFB" }} />
                                 <span>Perfil</span>
                             </Nav.Link>
                         </ListGroup.Item>
 
                         <ListGroup.Item className="bg-dark border-0">
-                            <Nav.Link 
-                                as={Link} 
-                                to="/productos" 
+                            <Nav.Link
+                                as={Link}
+                                to="/productos"
                                 className="d-flex align-items-center gap-3 text-white py-3 px-3"
                                 onClick={onClose}
                             >
-                                <FaBoxOpen style={{ color: "#7A5CFB" }} /> 
+                                <FaBoxOpen style={{ color: "#7A5CFB" }} />
                                 <span>Productos</span>
                             </Nav.Link>
                         </ListGroup.Item>
 
                         <ListGroup.Item className="bg-dark border-0">
-                            <Nav.Link 
-                                as={Link} 
-                                to="/control-iot" 
+                            <Nav.Link
+                                as={Link}
+                                to="/control-iot"
                                 className="d-flex align-items-center gap-3 text-white py-3 px-3"
                                 onClick={onClose}
                             >
-                                <FaComputer style={{ color: "#7A5CFB" }} /> 
+                                <FaComputer style={{ color: "#7A5CFB" }} />
                                 <span>Control IoT</span>
                             </Nav.Link>
                         </ListGroup.Item>
 
                         <ListGroup.Item className="bg-dark border-0">
-                            <Nav.Link 
-                                as={Link} 
-                                to="/configuracion" 
+                            <Nav.Link
+                                as={Link}
+                                to="/configuracion"
                                 className="d-flex align-items-center gap-3 text-white py-3 px-3"
                                 onClick={onClose}
                             >
-                                <FaCog style={{ color: "#7A5CFB" }} /> 
+                                <FaCog style={{ color: "#7A5CFB" }} />
                                 <span>Configuración</span>
                             </Nav.Link>
                         </ListGroup.Item>
 
                         <ListGroup.Item className="bg-dark border-0">
-                            <Nav.Link 
-                                as={Link} 
-                                to="/notificaciones" 
+                            <Nav.Link
+                                as={Link}
+                                to="/notificaciones"
                                 className="d-flex align-items-center gap-3 text-white py-3 px-3"
                                 onClick={onClose}
                             >
-                                <FaBell style={{ color: "#7A5CFB" }} /> 
+                                <FaBell style={{ color: "#7A5CFB" }} />
                                 <span>Notificaciones</span>
                                 {notifications > 0 && (
                                     <Badge pill bg="danger" className="ms-auto">
@@ -140,24 +123,24 @@ const Header = () => {
                                     <div className="text-muted small px-3 py-2">ADMINISTRACIÓN</div>
                                 </ListGroup.Item>
                                 <ListGroup.Item className="bg-dark border-0">
-                                    <Nav.Link 
-                                        as={Link} 
-                                        to="/admin-usuarios" 
+                                    <Nav.Link
+                                        as={Link}
+                                        to="/admin-usuarios"
                                         className="d-flex align-items-center gap-3 text-white py-3 px-3"
                                         onClick={onClose}
                                     >
-                                        <FaUser style={{ color: "#7A5CFB" }} /> 
+                                        <FaUser style={{ color: "#7A5CFB" }} />
                                         <span>Usuarios</span>
                                     </Nav.Link>
                                 </ListGroup.Item>
                                 <ListGroup.Item className="bg-dark border-0">
-                                    <Nav.Link 
-                                        as={Link} 
-                                        to="/editar-productos" 
+                                    <Nav.Link
+                                        as={Link}
+                                        to="/editar-productos"
                                         className="d-flex align-items-center gap-3 text-white py-3 px-3"
                                         onClick={onClose}
                                     >
-                                        <FaList style={{ color: "#7A5CFB" }} /> 
+                                        <FaList style={{ color: "#7A5CFB" }} />
                                         <span>Productos</span>
                                     </Nav.Link>
                                 </ListGroup.Item>
@@ -165,26 +148,26 @@ const Header = () => {
                         )}
 
                         <ListGroup.Item className="bg-dark border-0">
-                            <Nav.Link 
-                                as={Link} 
-                                to="/herramientas" 
+                            <Nav.Link
+                                as={Link}
+                                to="/herramientas"
                                 className="d-flex align-items-center gap-3 text-white py-3 px-3"
                                 onClick={onClose}
                             >
-                                <FaTools style={{ color: "#7A5CFB" }} /> 
+                                <FaTools style={{ color: "#7A5CFB" }} />
                                 <span>Herramientas</span>
                             </Nav.Link>
                         </ListGroup.Item>
 
                         <ListGroup.Item className="bg-dark border-0">
-                            <Nav.Link 
+                            <Nav.Link
                                 onClick={() => {
                                     onClose();
                                     handleLogout();
                                 }}
                                 className="d-flex align-items-center gap-3 text-white py-3 px-3"
                             >
-                                <FaSignOutAlt style={{ color: "#FF6B6B" }} /> 
+                                <FaSignOutAlt style={{ color: "#FF6B6B" }} />
                                 <span>Cerrar Sesión</span>
                             </Nav.Link>
                         </ListGroup.Item>
@@ -245,46 +228,6 @@ const Header = () => {
                             <Nav.Link as={Link} to="/" className="text-white mx-2 d-flex align-items-center">
                                 <FaHome className="me-1" /> Inicio
                             </Nav.Link>
-                            
-                            <Dropdown className="mx-2">
-                                <Dropdown.Toggle
-                                    variant="link"
-                                    className="text-white d-flex align-items-center"
-                                    style={{
-                                        textDecoration: "none",
-                                        fontSize: "1rem",
-                                        fontWeight: "500"
-                                    }}
-                                >
-                                    <FaBoxOpen className="me-1" />
-                                    Productos
-                                    <FiChevronDown className="ms-1" />
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu style={{
-                                    backgroundColor: "#2B2347",
-                                    border: "1px solid rgba(122, 92, 251, 0.5)",
-                                    borderRadius: "8px",
-                                    padding: "0.5rem 0"
-                                }}>
-                                    {categorias.map((categoria) => (
-                                        <Dropdown.Item
-                                            key={categoria.name}
-                                            onClick={() => handleSelectCategoria(categoria.name)}
-                                            className="d-flex align-items-center py-2 px-3"
-                                            style={{
-                                                color: "#FFFFFF",
-                                                transition: "all 0.2s",
-                                                borderLeft: "3px solid transparent"
-                                            }}
-                                            onMouseEnter={(e) => e.currentTarget.style.borderLeft = "3px solid #7A5CFB"}
-                                            onMouseLeave={(e) => e.currentTarget.style.borderLeft = "3px solid transparent"}
-                                        >
-                                            {categoria.icon}
-                                            {categoria.name}
-                                        </Dropdown.Item>
-                                    ))}
-                                </Dropdown.Menu>
-                            </Dropdown>
 
                             <Nav.Link as={Link} to="/soluciones" className="text-white mx-2">
                                 Soluciones
@@ -294,6 +237,9 @@ const Header = () => {
                             </Nav.Link>
                             <Nav.Link as={Link} to="/contacto" className="text-white mx-2">
                                 Contacto
+                            </Nav.Link>
+                            <Nav.Link as={Link} to="/ProductosCat" className="text-white mx-2">
+                                Productos
                             </Nav.Link>
                         </Nav>
 
@@ -405,7 +351,7 @@ const Header = () => {
                                                     >
                                                         <FaCogs className="me-2" /> Productos
                                                     </Dropdown.Item>
-                                                    
+
                                                     <Dropdown.Item
                                                         as={Link}
                                                         to="/admin-politicas"
@@ -514,9 +460,9 @@ const Header = () => {
                                 </Button>
                             </>
                         )}
-                        <Navbar.Toggle 
-                            aria-controls="basic-navbar-nav" 
-                            style={{ border: "none", color: "white" }} 
+                        <Navbar.Toggle
+                            aria-controls="basic-navbar-nav"
+                            style={{ border: "none", color: "white" }}
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
                         />
                     </div>
